@@ -24,13 +24,11 @@ app.use((req, res, next) => {
 app.use( bodyParser.json() );  
 
 app.post('/newUser', (req, res) => {
-    console.log('status: ', req.body);
     if (!req.body) {
         res.statusCode = 400;
         return res.send('None shall pass');
     }
     cardService.addNewUsers(req.body.user);
-    console.log('good boy');
     res.json('{Good: boy}');
 });
 
