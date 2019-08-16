@@ -50,6 +50,9 @@ class AvailableCardsService {
                 case 'weather':
                     element.specialPoints = 1;
                     break;
+                case 'gorn':
+                    element.specialPoints = element.specialPoints * 2;
+                    break;
                 default:
                     break;
             }
@@ -66,7 +69,11 @@ class AvailableCardsService {
 
     addCards(element, item) {
         if (element.nonPlayer) {
-            this.availableCards[item][element.specialType].push(element);
+            if (element.cardName === 'weather') {
+                this.availableCards[item][element.specialType].unshift(element);
+            } else {
+                this.availableCards[item][element.specialType].push(element);
+            }
             this.availableCards[item][element.type].map(el => this.addSpecials(el, this.availableCards[item][element.specialType]));
         }
         else {
@@ -90,7 +97,7 @@ class AvailableCardsService {
 
     set usersTurn(user) {
         this.currentUsers.push(user);
-        if (this.currentUsers.length === 2) {
+     if (this.currentUsers.length === 2) {
             this.generator = generator(99, this.currentUsers[0], this.currentUsers[1]);
         }
     }
