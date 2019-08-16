@@ -1,4 +1,4 @@
-const json = require('../field.json');
+const json = require('../db/field.json');
 const generator = require('./generator');
 
 
@@ -89,7 +89,7 @@ class AvailableCardsService {
     addNewUsers(userId) {
         if (userId) {
             this.availableCards[userId] = new BaseField();
-            this.currentHand[userId] = json[userId];
+            this.currentHand[userId] = json[userId].gamePull;
             this.usersTurn = userId;
             this.userMove();
         }

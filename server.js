@@ -1,11 +1,12 @@
 const express = require('express');
 const path = require('path');
 const http = require('http');
-const json = require('./field.json');
 const Helper = require('./server/helper');
+const fs = require('fs');
 const bodyParser = require("body-parser");
-const generator = require('./server/generator')(10, '05091989', '11111');
+const pull = require('./db/pull.json');
 const io = require("socket.io");
+const json = require('./db/field.json')
 
 
 const cardService = new Helper();
@@ -13,6 +14,7 @@ const cardService = new Helper();
 const app = express();
 
 app.use((req, res, next) => {
+    console.log(req.url);
     if (req.header('Authorization')) {
         next();        
     } else {
@@ -23,14 +25,25 @@ app.use((req, res, next) => {
 
 app.use( bodyParser.json() );  
 
-app.post('/newUser', (req, res) => {
+app.post('/get-all', (req, res) => {
     if (!req.body) {
         res.statusCode = 400;
         return res.send('None shall pass');
     }
-    cardService.addNewUsers(req.body.user);
-    res.json('{Good: boy}');
+    res.json(pull[req.body.user]);
 });
+
+app.post('/save-hand', (req, res) => {
+    if (!req.body) {
+        res.statusCode = 400;
+        return res.send('None shall pass');
+    }
+    json[req.body.user].gamePull = req.body.pull
+    fs.writeFile('./db/field.json', JSON.stringify(json), (err) => {
+        console.log(err);
+    });
+    res.send('done');
+})
 
 const port = '4500';
 app.set('port', port);
