@@ -50,9 +50,6 @@ class AvailableCardsService {
                 case 'weather':
                     element.specialPoints = 1;
                     break;
-                case 'gorn':
-                    element.specialPoints = element.specialPoints * 2;
-                    break;
                 default:
                     break;
             }
@@ -69,11 +66,7 @@ class AvailableCardsService {
 
     addCards(element, item) {
         if (element.nonPlayer) {
-            if (element.cardName === 'weather') {
-                this.availableCards[item][element.specialType].unshift(element);
-            } else {
-                this.availableCards[item][element.specialType].push(element);
-            }
+            this.availableCards[item][element.specialType].push(element);
             this.availableCards[item][element.type].map(el => this.addSpecials(el, this.availableCards[item][element.specialType]));
         }
         else {
