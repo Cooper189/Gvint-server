@@ -114,7 +114,16 @@
         "type":"war",
         "specialType":"warSpecial",
         "nonPlayer":true
-     }
+     },
+     {  
+      "cardId":171,
+      "cardName":"gorn",
+      "image":"assets/img/gorn.png",
+      "basePoints":0,
+      "type":"war",
+      "specialType":"warSpecial",
+      "nonPlayer":true
+      }
    ]
 }   
  
